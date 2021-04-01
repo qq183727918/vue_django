@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import App from './App.vue'
+// import App from './App.vue'
+import Home from './views/home/Home.vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
@@ -44,5 +45,5 @@ axios.interceptors.response.use(function (response) {
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(Home)
 }).$mount('#app')

@@ -61,6 +61,7 @@ export default {
         window.localStorage.setItem('userToken', res.data.data.access_token)
         console.log(window.localStorage.getItem('userToken'))
         this.$router.replace('/index')
+        this.$message.success('登录成功！')
       })
     }
   }

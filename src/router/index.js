@@ -6,11 +6,16 @@ Vue.use(VueRouter)
 const routes = [
   {
     // 需要显示导航的跳转路由
-    path: '/index',
-    name: '首页',
+    path: '/',
+    name: '菜单',
     // 需要显示的菜单导航的路由，作为该路由的子路由，并且在子路由中设置具体跳转加载的组件
     component: () => import('@/views/home/Home.vue'),
     children: [{
+      path: '/index',
+      name: '首页',
+      component: () => import('../views/home/index.vue')
+    },
+    {
       path: '/project/list',
       name: '项目列表',
       component: () => import('@/views/project/project_list.vue')

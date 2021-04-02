@@ -51,7 +51,7 @@
         </el-submenu>
         <el-submenu index="4">
           <template slot="title"
-            ><i class="el-icon-setting"></i>小工具管理</template
+            ><i class="el-icon-s-promotion"></i>小工具管理</template
           >
           <el-menu-item-group>
             <router-link to='/quadrature'>
@@ -79,6 +79,7 @@
   <router-view />
 </div>
 </template>
+
 <style>
 * {
   padding: 0px;
@@ -99,8 +100,14 @@ body {
   line-height: 60px;
 }
 
-.el-container {
-  height: 100%;
+.container{
+  position: fixed;
+  top: 10%;
+  width: 81%;
+  left: 17%;
+  height: 88.5%;
+  background-color: rgba(252, 252, 252, 0.5);
+  border-radius: 10px;
 }
 
 *::-webkit-scrollbar {

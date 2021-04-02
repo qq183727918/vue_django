@@ -1,7 +1,7 @@
 <template>
-<div id="app">
-  <router-view></router-view>
+<div>
   <el-container style="height: 100%;">
+    <div style="position: fixed;width: 252px;background-color: #20222a;height:100%">dddd</div>
     <el-aside width="252px">
     <div style="height: 60px;text-align: center;background-color: #20222a;color: #fff;width: 252px;font-size: 20px;
         font-weight: 300;;z-index: 2"><span style="top: 25px;position: fixed;left: 85px;z-index: 2">PLATFORM</span></div>
@@ -36,7 +36,7 @@
             ><i class="el-icon-setting"></i>变量管理</template
           >
           <el-menu-item-group>
-            <router-link to='/global_data'>
+            <router-link to='/global/data'>
               <el-menu-item index="2-1">全局变量</el-menu-item>
             </router-link>
           </el-menu-item-group>
@@ -44,7 +44,7 @@
         <el-submenu index="3">
           <template slot="title"><i class="el-icon-menu"></i>用户管理</template>
           <el-menu-item-group>
-            <router-link to='/user'>
+            <router-link to='/user/user'>
               <el-menu-item index="3-1">用户管理</el-menu-item>
             </router-link>
           </el-menu-item-group>
@@ -76,18 +76,31 @@
       </el-header>
     </el-container>
   </el-container>
+  <router-view />
 </div>
 </template>
 <style>
-*{
+* {
   padding: 0px;
   margin: 0px;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(120deg, #487eb0, #fbc531);
+  overflow: hidden;
 }
 
 .el-header {
   background-color: #b3c0d1;
   color: #333;
   line-height: 60px;
+}
+
+.el-container {
+  height: 100%;
 }
 
 *::-webkit-scrollbar {
@@ -97,17 +110,6 @@
 
 <script>
 export default {
-  data () {
-    return {
-      containerHeight: {
-        height: ''
-      }
-    }
-  },
-  created () {
-    var docHeight = document.documentElement.clientHeight
-    this.containerHeight.height = docHeight - 20 + 'px'
-  },
   handleOpen (key, keyPath) {
     console.log(key, keyPath)
   },

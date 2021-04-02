@@ -1,6 +1,6 @@
 <template>
   <el-container class="container">
-    <h1>用例管理</h1>
+    <h1>用户管理</h1>
   </el-container>
 </template>
 

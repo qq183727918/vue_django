@@ -10,9 +10,11 @@ export default {}
 <style>
 .container{
   position: fixed;
-  top: 275px;
-  width: 1270px;
-  left: 895px;
-  height: 600px;
+  top: 10%;
+  width: 82.5%;
+  left: 17%;
+  height: 88.5%;
+  background-color: rgba(252, 252, 252, 0.5);
+  border-radius: 10px;
 }
 </style>

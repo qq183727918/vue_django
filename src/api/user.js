@@ -14,12 +14,12 @@ export async function login(data) {
   })
 }
 
-export function getUserInfo(accessToken) {
+export function getUserInfo(Authorization) {
   return request({
     url: '/userInfo',
     method: 'post',
     data: {
-      [tokenName]: accessToken,
+      [tokenName]: Authorization,
     },
   })
 }

@@ -578,6 +578,7 @@
         })
       },
       sendRequest() {
+        this.values = "正在请求..."
         const pro_list = {}
         if(this.mock == ""){
           pro_list['mock'] = ""

@@ -719,23 +719,7 @@
             pro_list['api_body'] = this.formArrx
           }
           if(this.radio == 4){
-            if(this.textareas == ""){
-              pro_list['api_body'] = {}
-            }else{
-              const re = this.textareas
-              const striq1 = re[0]
-              const striq2 = re.substr(re.length-1,1)
-              if(striq1 == '{' && striq2 == '}'){
-                try{
-                  pro_list['api_body'] = JSON.parse(re)
-                }
-                catch{
-                  pro_list['api_body'] = this.textareas
-                }
-              }else{
-                pro_list['api_body'] = this.textareas
-              }
-            }
+            pro_list['api_body'] = this.textareas
           }
           pro_list['radio'] = this.radio
         }

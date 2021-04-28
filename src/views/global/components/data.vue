@@ -75,6 +75,7 @@
             this.dialogFormVisible = false
             this.$emit('fetch-data')
             this.form = this.$options.data().form
+            this.$parent.fetchData()
           } else {
             return false
           }

@@ -9,10 +9,10 @@ export function Orthogonal(data) {
   })
 }
 
-export function doEdit(data) {
+export function OrthogonalDrive(data) {
   return request({
-    url: '/project/CaseEdit',
-    method: 'put',
+    url: '/Orthogonal/OrthogonalDrive',
+    method: 'post',
     data,
   })
 }

@@ -64,9 +64,25 @@ import { Orthogonal, OrthogonalDrive } from '@/api/project/orthogonal'
       },
       Driveorth() {
         const tablist = this.formArr
-        const pro_list = {end_values: this.formArr}
+        const pro_list = {
+          end_values: this.formArr,
+          }
         OrthogonalDrive(pro_list).then(data => {
           console.log(data)
+          let blob = new Blob([data], {
+                type: 'application/octet-stream;charset=UTF-8'
+              })
+          let fileNameEncode = data.headers['content-disposition'].split("filename=")[1];
+          let fileName = decodeURIComponent(fileNameEncode)
+          if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveBlob(blob, fileName)
+          } else {
+            var link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = fileName
+            link.click()
+            window.URL.revokeObjectURL(link.href)
+          }
         })
       },
       Orthogonal() {
@@ -109,7 +125,7 @@ import { Orthogonal, OrthogonalDrive } from '@/api/project/orthogonal'
 
   html body .vue-admin-beautiful-wrapper .app-main-container > [class*=-container] {
     padding: 20px;
-    background: rgb(146, 146, 146, 0.3);
+    /* background: rgb(146, 146, 146, 0.3); */
     border-radius: 10px;
   }
 

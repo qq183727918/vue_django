@@ -10,6 +10,7 @@
         <el-upload
           class="upload-demo"
           action="http://192.168.1.42:8080/httprunner/update"
+          :headers="headers"
           :on-preview="handlePreview"
           :on-remove="handleRemove"
           :before-remove="beforeRemove"
@@ -36,6 +37,7 @@
     name: 'TableEdit',
     data() {
       return {
+        token: '',
         form: {
           listName: '',
           remark: '',
@@ -47,6 +49,13 @@
         title: '',
         dialogFormVisible: false,
         fileList: []
+      }
+    },
+    computed: {
+      headers() {
+        return{
+          "Authorization": this.token // 直接从本地获取token就行
+        }
       }
     },
     created() {},
@@ -65,13 +74,9 @@
       beforeRemove(file, fileList) {
         return this.$confirm(`确定移除 ${ file.name }？`);
       },
-      showEdit(row) {
-        if (!row) {
-          this.title = '添加'
-        } else {
-          this.title = '编辑'
-          this.form = Object.assign({}, row)
-        }
+      showEdit(tokens) {
+        this.title = '抓包导入接口'
+        this.token = tokens
         this.dialogFormVisible = true
       },
       close() {

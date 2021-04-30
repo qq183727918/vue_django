@@ -116,7 +116,7 @@
 </template>
 
 <script>
-  import { getList, doDelete, GetProList } from '@/api/project/list'
+  // import { getList, doDelete, GetProList } from '@/api/project/list'
   // import TableEdit from './components/list'
   export default {
     name: 'ComprehensiveTable',

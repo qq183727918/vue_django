@@ -3,7 +3,7 @@
     <vab-query-form>
       <vab-query-form-left-panel>
         <el-button icon="el-icon-plus" type="primary" @click="handleAdd">
-          添加
+          抓包导入
         </el-button>
         <el-button icon="el-icon-delete" type="danger" @click="handleDelete">
           删除
@@ -183,10 +183,11 @@
         this.selectRows = val
       },
       handleAdd() {
-        this.$refs['edit'].showEdit()
+        const tokens = localStorage.getItem("token")
+        this.$refs['edit'].showEdit(tokens)
       },
       handleEdit(row) {
-        this.$refs['edit'].showEdit(row)
+        this.$refs['edit'].showEdits(row)
       },
       handleapis(row) {
         console.log(row.listName)

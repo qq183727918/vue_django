@@ -17,14 +17,7 @@
           @submit.native.prevent
         >
           <el-form-item>
-            <el-select v-model="select.value" clearable placeholder="项目名称">
-              <el-option
-                v-for="item in select.options"
-                :key="item.value"
-                :label="item.value"
-                :value="item.label">
-              </el-option>
-            </el-select>
+            <el-input v-model="queryForm.file_name" placeholder="接口文件" />
           </el-form-item>
           <el-form-item>
             <el-button
@@ -46,6 +39,8 @@
       :data="list"
       :element-loading-text="elementLoadingText"
       :height="height"
+      :header-cell-style="{'text-align':'center'}"
+      :cell-style="{'text-align':'center'}"
       @selection-change="setSelectRows"
       @sort-change="tableSortChange"
     >
@@ -61,29 +56,36 @@
       </el-table-column>
       <el-table-column
         show-overflow-tooltip
-        prop="listName"
-        label="项目名称"
+        prop="file_name"
+        label="接口文件"
       ></el-table-column>
-      <el-table-column
-        show-overflow-tooltip
-        label="备注"
-        prop="remark"
-      ></el-table-column>
+      <el-table-column label="解压JSON">
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.is_json"
+            :active-value="0"
+            :inactive-value="1"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="handlePush(scope.row, scope.row.is_json)">
+          </el-switch>
+        </template>
+      </el-table-column>
       <el-table-column
         show-overflow-tooltip
         label="创建者"
-        prop="user"
+        prop="user_name"
       ></el-table-column>
-      <el-table-column show-overflow-tooltip label="状态">
+      <el-table-column show-overflow-tooltip label="解压状态">
         <template #default="{ row }">
           <el-tooltip
-            :content="row.is_active"
+            :content="row.is_zip"
             class="item"
             effect="dark"
             placement="top-start"
           >
-            <el-tag :type="row.is_active | statusFilter">
-              {{ row.is_active }}
+            <el-tag :type="row.is_zip | statusFilter">
+              {{ row.is_zip }}
             </el-tag>
           </el-tooltip>
         </template>
@@ -92,12 +94,12 @@
         show-overflow-tooltip
         label="创建时间"
         prop="created_time"
-        width="200"
       ></el-table-column>
-      <el-table-column show-overflow-tooltip label="操作" width="230px">
+      <el-table-column show-overflow-tooltip label="操作" width="300px">
         <template #default="{ row }">
-          <el-button type="warning" @click="handleapis(row)">进入</el-button>
-          <el-button type="success" @click="handleEdit(row)">编辑</el-button>
+          <el-button type="warning" @click="uncompress(row)">解压</el-button>
+          <el-button type="success" @click="handleEdit(row)">运行</el-button>
+          <el-button type="info" @click="AbnoRmal(row)">查看报告</el-button>
           <el-button type="danger" @click="handleDelete(row)">删除</el-button>
         </template>
       </el-table-column>
@@ -116,7 +118,7 @@
 </template>
 
 <script>
-  import { getList, doDelete, GetProList } from '@/api/requestTools/httprunner'
+  import { getList, doDelete, GetProList, Uncompress, IsJSon } from '@/api/requestTools/httprunner'
   import TableEdit from './components/newrunner'
   export default {
     name: 'ComprehensiveTable',
@@ -135,28 +137,18 @@
     },
     data() {
       return {
-        select: {
-         options: [
-           {
-            value: '选项1',
-            label: '黄金糕'
-          }],
-          value: '',
-          label: ''
-        },
-        imgShow: true,
+        value: 2,
         list: [],
         imageList: [],
         listLoading: true,
         layout: 'total, sizes, prev, pager, next, jumper',
         total: 0,
         background: true,
-        selectRows: '',
         elementLoadingText: '正在加载...',
         queryForm: {
           pageNo: 1,
           pageSize: 10,
-          listName: '',
+          file_name: '',
         },
       }
     },
@@ -167,11 +159,26 @@
     },
     created() {
       this.fetchData()
-      this.resfet()
     },
     beforeDestroy() {},
     mounted() {},
     methods: {
+      handlePush(row, rows) {
+        if(row.is_zip == "已解压"){
+          this.$baseMessage('已经解压完成！不能在操作', 'error')
+          this.fetchData()
+          return false
+        }
+        const pro_lsit = { 
+          id: row.id, 
+          is_json: rows
+        }
+        console.log(pro_lsit)
+        IsJSon(pro_lsit).then(data => {
+          console.log(data)
+          this.$baseMessage(data.message, 'success')
+        })
+      },
       tableSortChange() {
         const imageList = []
         this.$refs.tableSort.tableData.forEach((item, index) => {
@@ -189,9 +196,16 @@
       handleEdit(row) {
         this.$refs['edit'].showEdits(row)
       },
-      handleapis(row) {
-        console.log(row.listName)
-        this.$router.push({ path: '/project/apis' })
+      uncompress(row) {
+        console.log(row.is_zip)
+        if(row.is_zip == "已解压"){
+          this.$baseMessage('已经解压完成！不能在操作', 'error')
+          return false
+        }
+        // Uncompress({ id: row.id }).then(data => {
+        //   this.$baseMessage('操作完成！', 'success')
+        //   this.fetchData()
+        // })
       },
       handleDelete(row) {
         if (row.id) {
@@ -213,21 +227,6 @@
             return false
           }
         }
-      },
-      async resfet() {
-        GetProList().then(data => {
-          const lists = data.data
-          const getpro = new Array()
-          for(var s = 0; s < lists.length; s++){
-            const dic = {}
-            dic.value = lists[s].listName
-            dic.label = lists[s].id
-            getpro.push(dic)
-            console.log(dic)
-          }
-          console.log(getpro)
-          this.select = {options: getpro}
-        })
       },
       async fetchData() {
         this.listLoading = true
@@ -252,7 +251,6 @@
         this.fetchData()
       },
       handleQuery() {
-        this.queryForm.listName = this.select.value
         this.queryForm.pageNo = 1
         this.fetchData()
       },

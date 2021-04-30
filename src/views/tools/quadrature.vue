@@ -108,9 +108,6 @@ import { Orthogonal, OrthogonalDrive } from '@/api/project/orthogonal'
 </script>
 
 <style scoped>
-  .el-table th, .el-table td {
-    text-align: center !important;
-  }
   h1 {
     text-align: center;
   }

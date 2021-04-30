@@ -50,6 +50,8 @@
       :data="list"
       :element-loading-text="elementLoadingText"
       :height="height"
+      :header-cell-style="{'text-align':'center'}"
+      :cell-style="{'text-align':'center'}"
       @selection-change="setSelectRows"
       @sort-change="tableSortChange"
     >

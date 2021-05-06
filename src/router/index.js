@@ -362,24 +362,51 @@ export const asyncRoutes = [
         children: null,
       },
       {
-        path: 'apis',
+        path: 'api',
         name: 'apis',
-        component: () => import('@/views/project/project_apis'),
+        // component: () => import('@/views/project/project_apis'),
+        component: EmptyLayout,
         meta: {
           title: '接口管理',
           noKeepAlive: true,
         },
-        children: null,
+        children: [
+          {
+            path: 'api',
+            name: 'api',
+            component: () => import('@/views/project/project_apis'),
+            meta: { title: 'API管理' },
+          },
+          {
+            path: 'case',
+            name: 'case',
+            component: () => import('@/views/project/project_case'),
+            meta: { title: 'API用例' },
+          },
+        ]
       },
       {
-        path: 'case',
-        name: 'case',
-        component: () => import('@/views/project/project_case'),
+        path: 'web',
+        name: 'web',
+        component: EmptyLayout,
         meta: {
-          title: '用例管理',
+          title: 'web管理',
           noKeepAlive: true,
         },
-        children: null,
+        children: [
+          {
+            path: 'selenium',
+            name: 'selenium',
+            component: () => import('@/views/webselenium/ScriptEditor/scriptEditor'),
+            meta: { title: '脚本编辑' },
+          },
+          {
+            path: 'seleniumcase',
+            name: 'seleniumcase',
+            component: () => import('@/views/webselenium/SeleniumCase/SeleniumCase'),
+            meta: { title: 'web用例' },
+          },
+        ]
       },
     ],
   },

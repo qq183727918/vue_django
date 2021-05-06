@@ -42,6 +42,7 @@ const setting = {
   loadingText: '正在玩命的加载中...',
   //token名称
   tokenName: 'Authorization',
+  // tokenName: 'accessToken',
   //token在localStorage、sessionStorage存储的key的名称
   tokenTableName: 'token',
   //token存储位置localStorage sessionStorage

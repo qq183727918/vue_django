@@ -18,7 +18,7 @@ export function doEdit(data) {
 
 export function doDelete(data) {
   return request({
-    url: '/project/del',
+    url: '/httprunner/del',
     method: 'delete',
     data,
   })
@@ -36,6 +36,22 @@ export function IsJSon(data) {
   return request({
     url: '/httprunner/IsJSon',
     method: 'put',
+    data,
+  })
+}
+
+export function LookReport(data) {
+  return request({
+    url: '/httprunner/RunnerLook',
+    method: 'post',
+    data,
+  })
+}
+
+export function HttpRunner(data) {
+  return request({
+    url: '/httprunner/HttpRunnerReport',
+    method: 'post',
     data,
   })
 }

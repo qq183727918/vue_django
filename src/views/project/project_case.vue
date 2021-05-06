@@ -91,7 +91,7 @@
       ></el-table-column>
       <el-table-column show-overflow-tooltip label="操作" width="400px">
         <template #default="{ row }">
-          <el-button ref="Run_btn_{{row.id}}" type="primary" @click="handleapis(row,$event)">运行</el-button>
+          <el-button ref="Run_btn_{{row.id}}" type="primary" @click="handleapis(row, $event)">运行</el-button>
           <el-button type="warning" @click="handleSet(row)">设置</el-button>
           <el-button type="info" @click="handleReport(row)">查看报告</el-button>
           <el-button @click="CopyCase(row)">复制</el-button>

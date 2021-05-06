@@ -98,8 +98,8 @@
       <el-table-column show-overflow-tooltip label="操作" width="300px">
         <template #default="{ row }">
           <el-button type="warning" @click="uncompress(row)">解压</el-button>
-          <el-button type="success" @click="handleEdit(row)">运行</el-button>
-          <el-button type="info" @click="AbnoRmal(row)">查看报告</el-button>
+          <el-button type="success" @click="handleRun(row, $event)">运行</el-button>
+          <el-button type="info" @click="handleReport(row)">查看报告</el-button>
           <el-button type="danger" @click="handleDelete(row)">删除</el-button>
         </template>
       </el-table-column>
@@ -118,7 +118,7 @@
 </template>
 
 <script>
-  import { getList, doDelete, GetProList, Uncompress, IsJSon } from '@/api/requestTools/httprunner'
+  import { getList, doDelete, GetProList, Uncompress, IsJSon, LookReport, HttpRunner } from '@/api/requestTools/httprunner'
   import TableEdit from './components/newrunner'
   export default {
     name: 'ComprehensiveTable',
@@ -137,6 +137,7 @@
     },
     data() {
       return {
+        stuname: '正在运行...',
         value: 2,
         list: [],
         imageList: [],
@@ -163,6 +164,14 @@
     beforeDestroy() {},
     mounted() {},
     methods: {
+      handleReport(row) {
+        console.log(row)
+        LookReport({ file_name: row.file_name }).then(data => {
+          console.log(data)
+          var tempwindow = window.open('_blank')
+          tempwindow.location.href = data.message
+        })
+      },
       handlePush(row, rows) {
         if(row.is_zip == "已解压"){
           this.$baseMessage('已经解压完成！不能在操作', 'error')
@@ -178,6 +187,20 @@
           console.log(data)
           this.$baseMessage(data.message, 'success')
         })
+      },
+      handleRun(row, val){
+        console.log(row)
+        if(row.is_zip == "未解压"){
+          this.$baseMessage('请先行解压！', 'warning')
+          return false
+        }else{
+          val.target.innerText = this.stuname
+          HttpRunner({ id: row.id}).then(data => {
+            console.log(data)
+            this.$baseMessage('运行完成!', 'success')
+            val.target.innerText = '运行'
+          })
+        }
       },
       tableSortChange() {
         const imageList = []
@@ -202,10 +225,10 @@
           this.$baseMessage('已经解压完成！不能在操作', 'error')
           return false
         }
-        // Uncompress({ id: row.id }).then(data => {
-        //   this.$baseMessage('操作完成！', 'success')
-        //   this.fetchData()
-        // })
+        Uncompress({ id: row.id }).then(data => {
+          this.$baseMessage('操作完成！', 'success')
+          this.fetchData()
+        })
       },
       handleDelete(row) {
         if (row.id) {
